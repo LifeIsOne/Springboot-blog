@@ -25,16 +25,34 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/join")
-    public String join(UserRequest.JoinDTO requestDTO){
-        System.out.println(requestDTO);
+    @PostMapping("/loing")
+    public String login(UserRequest.LoginDTO requestDTO){
 
-        // 1. 유효성 검사
+        //  1. 유효성 검사
         if(requestDTO.getUsername().length() < 3){
             return "error/400";
         }
 
-        // 2. Model에게 위임하기
+        //  2. moderl 연결 / SELECT * FROM user_tb WHERE username=? AND password=?
+        User user = userRepository.findByUsernameAndPassword(requestDTO);   // 이 안에 username, password 들어있음
+
+        System.out.println(user);
+        System.out.println("로그인");
+
+        //  3. 응답
+        return "redirect:/";
+    }
+
+    @PostMapping("/join")
+    public String join(UserRequest.JoinDTO requestDTO){
+        System.out.println(requestDTO);
+
+        //  1. 유효성 검사
+        if(requestDTO.getUsername().length() < 3){
+            return "error/400";
+        }
+
+        //  2. Model에게 위임하기
         userRepository.saveV2(requestDTO);
 
         return "redirect:/loginForm";

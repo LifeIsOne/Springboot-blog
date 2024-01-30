@@ -1,9 +1,12 @@
 package shop.mtcoding.blog.user;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.catalina.realm.UserDatabaseRealm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.servlet.http.HttpSession;
 
 /**
  *  CONTROLLER
@@ -15,18 +18,18 @@ import org.springframework.web.bind.annotation.PostMapping;
  *  6. View만 원한다 -> View응답
  *  7. DB처리를 원한다 -> Moder(DAO)에게 위임 후 View를 응답
  */
+
+@RequiredArgsConstructor    //  생성자를 다시 만들 필요가 없다.
 @Controller
 public class UserController {
 
-    private UserRepository userRepository;      //  NULL
+    private final UserRepository userRepository;      //  NULL
+    private final HttpSession session;
 
-    public UserController(UserRepository userRepository) {
-        System.out.println("풀 생성자 UserController");
-        this.userRepository = userRepository;
-    }
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO){
+        System.out.println("requestDTO");
 
         //  1. 유효성 검사
         if(requestDTO.getUsername().length() < 3){
@@ -34,13 +37,19 @@ public class UserController {
         }
 
         //  2. moderl 연결 / SELECT * FROM user_tb WHERE username=? AND password=?
-        User user = userRepository.findByUsernameAndPassword(requestDTO);   // 이 안에 username, password 들어있음
-
-        System.out.println(user);
-        System.out.println("로그인");
+        User user = userRepository.findByUsernameAndPassword(requestDTO);   //  안에 username, password 들어있음
 
         //  3. 응답
-        return "redirect:/";
+        if (user == null){
+            return "error/401";
+        }else{
+            session.setAttribute("sessionUser", user);
+            return "redirect:/";
+        }
+
+//        System.out.println(user);
+//        System.out.println("로그인");
+
     }
 
     @PostMapping("/join")

@@ -25,7 +25,6 @@ public class UserRepository {
         query.setParameter(3, requestDTO.getEmail());
 
         query.executeUpdate();
-
     }
 
     @Transactional

@@ -16,7 +16,6 @@ spring:
     username: matthew
     password:
 
-
   h2:
     console:
       enabled: true

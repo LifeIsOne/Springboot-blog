@@ -15,7 +15,7 @@ public class UserRepository {
     }
 
     //  저장.INSERT.(Join)
-    @Transactional  // 이 method를 트랜잭션 단위로 실행
+    @Transactional      //  method를 트랜잭션 단위로 실행
     public void save (UserRequest.JoinDTO requestDTO){
         Query query = em.createNativeQuery("INSERT INTO user_tb(username, password, email) VALUES (?, ?, ?)");
         query.setParameter(1, requestDTO.getUsername());
@@ -23,6 +23,17 @@ public class UserRepository {
         query.setParameter(3, requestDTO.getEmail());
 
         query.executeUpdate();
+    }
+
+    //  Model
+    @Transactional
+    public void saveV2 (UserRequest.JoinDTO requestDTO){
+        User user = new User();
+        user.setUsername(requestDTO.getUsername());
+        user.setPassword(requestDTO.getPassword());
+        user.setEmail(requestDTO.getEmail());
+
+        em.persist(user);
     }
 
     //  조회.SELECT.(Login)

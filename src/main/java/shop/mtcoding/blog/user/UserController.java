@@ -25,7 +25,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/loing")
+    @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO){
 
         //  1. 유효성 검사

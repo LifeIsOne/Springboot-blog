@@ -3,12 +3,12 @@ server:
     encoding:
       charset: utf-8
       force: true
-  port: 5000
+  port: 8080
 
 spring:
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2mem:test;MODE=MySQL
+    url: jdbc:h2:mem:test;MODE=MySQL
     username: sa
     password:
 
@@ -19,4 +19,9 @@ spring:
 
   jpa:
     hibernate:
+#     Data Definition Language
       ddl-auto: create
+    show-sql: true # Rerun하면 drop table if exists user_tb casade 가 나옴. 255자.  generby 이게 auto_increment
+    properties:
+      hibernate:
+        format_sql: true

@@ -1,8 +1,9 @@
-package shop.mtcoding.blog.controller;
+package shop.mtcoding.blog.user;
 
 import org.apache.catalina.realm.UserDatabaseRealm;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  *  CONTROLLER
@@ -17,21 +18,31 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UserController {
 
-//    @GetMapping("/join")
-//    public String join(UserRequest.JoinDTO requestDTO){
-//        System.out.println(requestDTO);
-//
-//        //  1. 유효성 검사
-//        if(requestDTO.getUsername().length() < 3){
-//            return "error/400";
-//        }
-//
-//        //  2. Moder에게 위임
-//
-//    }
+    private UserRepository userRepository;      //  NULL
+
+    public UserController(UserRepository userRepository) {
+        System.out.println("풀 생성자 UserController");
+        this.userRepository = userRepository;
+    }
+
+    @PostMapping("/join")
+    public String join(UserRequest.JoinDTO requestDTO){
+        System.out.println(requestDTO);
+
+        // 1. 유효성 검사
+        if(requestDTO.getUsername().length() < 3){
+            return "error/400";
+        }
+
+        // 2. Model에게 위임하기
+        userRepository.saveV2(requestDTO);
+
+        return "redirect:/loginForm";
+    }
 
     @GetMapping("/joinForm")
     public String joinForm() {
+
         return "user/joinForm";
     }
 

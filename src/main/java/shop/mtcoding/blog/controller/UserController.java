@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UserController {
 
-    @GetMapping("/join")
-    public String join(UserRequest.JoinDTO requestDTO){
-        System.out.println(requestDTO);
-
-        //  1. 유효성 검사
-        if(requestDTO.getUsername().length() < 3){
-            return "error/400";
-        }
-
-        //  2. Moder에게 위임
-        
-    }
+//    @GetMapping("/join")
+//    public String join(UserRequest.JoinDTO requestDTO){
+//        System.out.println(requestDTO);
+//
+//        //  1. 유효성 검사
+//        if(requestDTO.getUsername().length() < 3){
+//            return "error/400";
+//        }
+//
+//        //  2. Moder에게 위임
+//
+//    }
 
     @GetMapping("/joinForm")
     public String joinForm() {

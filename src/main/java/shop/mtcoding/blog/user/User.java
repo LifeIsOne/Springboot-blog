@@ -21,4 +21,7 @@ public class User {
     @Column(length = 30, nullable = false)
     private String password;
     private String email;
+
+    @CreationTimestamp
+    private LocalDateTime createAt;
 }

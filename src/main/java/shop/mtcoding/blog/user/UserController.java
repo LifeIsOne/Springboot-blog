@@ -28,7 +28,7 @@ public class UserController {
         //  2. Model에 위임하기
         userRepository.saveV2(requestDTO);
 
-        return "redirect:/loginFrom";
+        return "redirect:/loginForm";
     }
 
     // 로그인 Mapping

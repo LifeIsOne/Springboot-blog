@@ -50,4 +50,16 @@ public class UserRepository {
         }
 
     }
+
+    public User findByUsername(String username) {
+        Query query = em.createNativeQuery("SELECT * FROM user_tb  WHERE username=?", User.class);
+        query.setParameter(1, username);
+
+        try{
+            User user = (User) query.getSingleResult();
+            return user;
+        }catch (Exception e){
+            return null;
+        }
+    }
 }

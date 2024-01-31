@@ -1,0 +1,2 @@
+INSERT INTO user_tb(username, password, email, created_at) VALUES('matthew', '1234', 'matthew@123.456', now());
+INSERT INTO user_tb(username, password, email, created_at) VALUES('cos', '1234', 'cos@nate.com', now());

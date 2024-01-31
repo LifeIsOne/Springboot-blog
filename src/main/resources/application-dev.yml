@@ -13,7 +13,7 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:test;MODE=MySQL
-    username: sa
+    username: matthew
     password:
 
 #      콘솔 url 설정. 웹으로 접근할 수 있게

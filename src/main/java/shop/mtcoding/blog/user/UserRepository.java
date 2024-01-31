@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-@Repository // ★★★★★★★주석달기 생성됨. new.
+@Repository //  자동으로 객체생성
 public class UserRepository {
 
     private EntityManager em;   //  컴포지션해서 적어
@@ -17,7 +17,7 @@ public class UserRepository {
         this.em = em;
     }
 
-    @Transactional
+    @Transactional  // 트랜잭션 설정.
     public void save (UserRequest.JoinDTO requestDTO){
         Query query = em.createNativeQuery("INSERT INTO user_tb(username, password, email) VALUES (?, ?, ?)");
         query.setParameter(1, requestDTO.getUsername());
@@ -27,7 +27,7 @@ public class UserRepository {
         query.executeUpdate();
     }
 
-    @Transactional
+    @Transactional  //  model
     public void saveV2 (UserRequest.JoinDTO requestDTO){
         User user = new User();
         user.setUsername(requestDTO.getUsername());
@@ -42,7 +42,12 @@ public class UserRepository {
         query.setParameter(1, requestDTO.getUsername());
         query.setParameter(2, requestDTO.getPassword());
 
-        User user = (User) query.getSingleResult();
-        return user;
+        try{
+            User user = (User) query.getSingleResult();
+            return user;
+        }catch (Exception e){
+            return null;
+        }
+
     }
 }

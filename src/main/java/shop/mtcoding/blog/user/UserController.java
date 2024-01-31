@@ -29,14 +29,14 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO){
-        System.out.println("requestDTO");
+        System.out.println(requestDTO);
 
         //  1. 유효성 검사
         if(requestDTO.getUsername().length() < 3){
             return "error/400";
         }
 
-        //  2. moderl 연결 / SELECT * FROM user_tb WHERE username=? AND password=?
+        //  2. model 연결 / SELECT * FROM user_tb WHERE username=? AND password=?
         User user = userRepository.findByUsernameAndPassword(requestDTO);   //  안에 username, password 들어있음
 
         //  3. 응답

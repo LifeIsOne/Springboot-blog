@@ -93,6 +93,7 @@ public class UserController {
 
     @GetMapping("/logout")
     public String logout() {
+        session.invalidate();   //  Server쪽 session을 날림. Client는 key를 들고있음.
         return "redirect:/";
     }
 }

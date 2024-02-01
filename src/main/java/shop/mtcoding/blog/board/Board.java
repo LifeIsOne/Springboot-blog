@@ -6,7 +6,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Data   //  getter, setter, toString
 @Entity
 @Table(name = "board_tb")
 public class Board {
@@ -16,7 +16,7 @@ public class Board {
     private int id;
     private String title;
     private String content;
-    private int userId;    //   N에 Forign key
+    private int userId;    //   N에 Foreign Key
 
     @CreationTimestamp
     private LocalDateTime createdAt;

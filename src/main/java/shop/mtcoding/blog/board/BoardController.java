@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import shop.mtcoding.blog._core.PagingUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,26 +18,19 @@ public class BoardController {
     private final BoardRepository boardRepository;  //  의존성 주입
 
     //  http://localhost:8080?page=0 (int page 가 파싱)
-    @GetMapping({ "/", "/board" })  //  @Data 반드시 필요
-    public String index(HttpServletRequest request, @RequestParam(defaultValue = "0") int page)  { // ※모르겠음
-
-        //  위임
+    @GetMapping({ "/", "/board" })
+    public String index(HttpServletRequest request, @RequestParam(defaultValue = "0") int page) {
         List<Board> boardList = boardRepository.findAll(page);
         request.setAttribute("boardList", boardList);
 
         int currentPage = page;
         int nextPage = currentPage+1;
-        int PrevPage = currentPage-1;
+        int prevPage = currentPage-1;
         request.setAttribute("nextPage", nextPage);
-        request.setAttribute("prevPage", PrevPage);
+        request.setAttribute("prevPage", prevPage);
 
-        boolean first = currentPage == 0 ? true : false;
-        boolean last = true;
-
-        int totalCount = 7;
-//        int paging = 3;
-//        int totalPage = 2;
-
+        boolean first = PagingUtil.isFirst(currentPage);
+        boolean last = PagingUtil.isLast(currentPage, 4);
 
         request.setAttribute("first", first);
         request.setAttribute("last", last);

@@ -18,6 +18,8 @@ public class BoardController {
     @GetMapping({ "/", "/board" })
     public String index(){
 
+        BoardRepository br = new BoardRepository();
+
         User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser == null){
             System.out.println("로그인 안된 상태입니다.");

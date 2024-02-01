@@ -3,7 +3,6 @@ package shop.mtcoding.blog.board;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import shop.mtcoding.blog.board.Board;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;

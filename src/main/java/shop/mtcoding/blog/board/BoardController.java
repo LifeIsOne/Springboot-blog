@@ -20,7 +20,6 @@ public class BoardController {
     @GetMapping({ "/", "/board" })  //  @Data 반드시 필요
     public String index(HttpServletRequest request, @RequestParam(defaultValue = "0") int page)  { // ※모르겠음
 
-        System.out.println("페이지 : " + page);
         //  위임
         List<Board> boardList = boardRepository.findAll(page);
         request.setAttribute("boardList", boardList);
@@ -29,17 +28,18 @@ public class BoardController {
         int nextPage = currentPage+1;
         int PrevPage = currentPage-1;
         request.setAttribute("nextPage", nextPage);
-        request.setAttribute("PrevPage", PrevPage);
+        request.setAttribute("prevPage", PrevPage);
 
         boolean first = currentPage == 0 ? true : false;
+        boolean last = true;
 
         int totalCount = 7;
 //        int paging = 3;
 //        int totalPage = 2;
 
-        boolean last = true;
 
         request.setAttribute("first", first);
+        request.setAttribute("last", last);
 
         return "index";
     }

@@ -1,12 +1,12 @@
 package shop.mtcoding.blog.board;
 
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import shop.mtcoding.blog._core.Constant;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -29,5 +29,13 @@ public class BoardRepository {
 
         List<Board> boardList = query.getResultList();
         return boardList;
+    }
+
+    public void findById(int id) {
+        //  Entity가 아닌 것은 JPA가 파싱하지 않는다.
+        Query query = em.createNativeQuery("select * from board_tb bt inner join user_tb ut on bt.user_id = ut.id where bt.id = ?");
+        query.setParameter(1, id);
+
+        query.getSingleResult();
     }
 }

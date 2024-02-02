@@ -22,7 +22,7 @@ public class BoardRepository {
     }
 
     public List<Board> findAll(int page){
-        int value = page* Constant.PAGING_COUNT
+        int value = page* Constant.PAGING_COUNT;
         Query query = em.createNativeQuery("select * from board_tb order by id desc limit ?,?", Board.class);
         query.setParameter(1, value);
         query.setParameter(2, Constant.PAGING_COUNT);

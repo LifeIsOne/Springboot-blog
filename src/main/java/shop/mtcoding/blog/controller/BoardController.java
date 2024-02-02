@@ -1,10 +1,10 @@
 package shop.mtcoding.blog.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import shop.mtcoding.blog.user.User;
 
-import javax.servlet.http.HttpSession;
 
 @Controller
 public class BoardController {

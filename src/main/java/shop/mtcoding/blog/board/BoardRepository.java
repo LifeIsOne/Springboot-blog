@@ -18,5 +18,4 @@ public class BoardRepository {
         Board board = (Board)query.getSingleResult();
         return board;
     }
-
 }

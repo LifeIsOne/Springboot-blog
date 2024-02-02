@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import shop.mtcoding.blog._core.PagingUtil;
+import shop.mtcoding.blog.user.User;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class BoardController {
 
     private final HttpSession session;
     private final BoardRepository boardRepository;  //  의존성 주입
+
 
     //  http://localhost:8080?page=0 (int page 가 파싱)
     @GetMapping({ "/", "/board" })
@@ -45,10 +47,30 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable int id)
+    public String detail(@PathVariable int id, HttpServletRequest request)
     {
-        boardRepository.findById(id);
+        BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
 
+        request.setAttribute("board", responseDTO);
+
+        //  1. 해당 페이지의 주인여부
+        boolean owner = false;
+
+
+        //  2. 작성자 userId 확인하기
+        int boardUserId = responseDTO.getUserId();
+
+
+        //  3. 로그인 여부 체크
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser != null){
+            if (boardUserId == sessionUser.getId()){
+                owner = true;
+            }
+        }
+
+
+        System.out.println("id : " + id);
         return "board/detail";
     }
 }

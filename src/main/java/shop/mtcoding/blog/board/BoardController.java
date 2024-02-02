@@ -1,19 +1,18 @@
-package shop.mtcoding.blog.controller;
+package shop.mtcoding.blog.board;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import shop.mtcoding.blog.user.User;
 
 
+@RequiredArgsConstructor
 @Controller
 public class BoardController {
 
     private final HttpSession session;
 
-    public BoardController(HttpSession session) {
-        this.session = session;
-    }
 
     @GetMapping({ "/", "/board" })
     public String index(){

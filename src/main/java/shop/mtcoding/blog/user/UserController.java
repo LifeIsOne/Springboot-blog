@@ -30,7 +30,7 @@ public class UserController {
     //  민감한 정보는 body로 보낸다.
     //  select * from user_tb where username=? and password=?
     @PostMapping("/login")
-    public String login(UserRequest.LoginDTO requestDTO){
+    public String login(String username, String password){
         System.out.println(requestDTO);
 
         //  1. 유효성 검사

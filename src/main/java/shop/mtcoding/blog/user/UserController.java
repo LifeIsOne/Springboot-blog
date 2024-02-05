@@ -26,6 +26,9 @@ public class UserController {
     private final HttpSession session;
 
 
+    //  SELECT인데 Post.
+    //  민감한 정보는 body로 보낸다.
+    //  select * from user_tb where username=? and password=?
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO requestDTO){
         System.out.println(requestDTO);

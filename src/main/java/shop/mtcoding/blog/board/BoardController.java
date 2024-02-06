@@ -27,12 +27,27 @@ public class BoardController {
         return "index";
     }
 
+    @PostMapping("/board/{id}/delete")
+    public String delete (@PathVariable int id, HttpServletRequest request){
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        //  1. 인증 X
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {   //  error : 401
+            return "redirect:/loginForm";
+        }
+        //  2. 권한 X
+        Board board = boardRepository.fintById(id);
+        if (bo)
+
+        return "redirect:/";
+    }
+
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO requestDTO, HttpServletRequest request){
         //  0. 인증 체크
         User sessionUser = (User) session.getAttribute("sessionUser");
         if (sessionUser == null){
-            return "redirect/loginFrom";
+            return "redirect:/loginForm";
         }
 
         //  1. body data 받기
@@ -66,12 +81,23 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable int id, HttpServletRequest request) {
-        System.out.println("id : "+id);
-
-        // 바디 데이터가 없으면 유효성 검사가 필요없지
+        //  1. Model 진입 - 상세보기 데이터 가져오기
         BoardResponse.DetailDTO responseDTO = boardRepository.findById(id);
 
+        //  2. 페이지 주인 여부 확인(board의 userId와 sessionUser 비교)
+        User sessionUser = (User) session.getAttribute("sessionUser");
+
+        boolean pageOwner;
+        if(sessionUser == null){
+            pageOwner = false;
+        }else{
+            int boardUserId = responseDTO.getUserId();
+            int sessionUserId = sessionUser.getId();
+            pageOwner = boardUserId == sessionUserId;
+        }
+
         request.setAttribute("board", responseDTO);
+        request.setAttribute("pageOwner", pageOwner);
         return "board/detail";
     }
 }

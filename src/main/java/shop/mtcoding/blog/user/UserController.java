@@ -62,9 +62,5 @@ public class UserController {
         return "user/updateForm";
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        session.invalidate();
-        return "redirect:/";
-    }
+
 }

@@ -18,7 +18,15 @@ public class BoardRepository {
         return query.getResultList();
     }
 
-    public BoardResponse.DetailDTO findById(int idx) {
+    public Board findById(int id) {
+        Query query = em.createNativeQuery("SELECT * FROM board_tb WHERE id =?", Board.class);
+        query.setParameter(1,id);   //  차뻔째 ?에 id넣기
+
+        Board board = (Board) query.getSingleResult();
+        return board;
+    }
+
+    public BoardResponse.DetailDTO findByIdWithUser(int idx) {
         Query query = em.createNativeQuery("SELECT b.id, b.title, b.content, b.user_id, u.username FROM board_tb b INNER JOIN user_tb u ON b.user_id = u.id WHERE b.id = ?");
         query.setParameter(1, idx);
 
@@ -53,6 +61,13 @@ public class BoardRepository {
         query.setParameter(2,requestDTO.getContent());
         query.setParameter(3,userId);
 
+        query.executeUpdate();
+    }
+
+    @Transactional
+    public void deleteById(int id) {
+        Query query = em.createNativeQuery("DELETE FROM board_tb WHERE id =?");
+        query.setParameter(1,id);
         query.executeUpdate();
     }
 }

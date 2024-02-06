@@ -6,60 +6,34 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 
-@Repository //  자동으로 객체생성
+@Repository // IoC에 new하는 방법
 public class UserRepository {
 
-    private EntityManager em;   //  컴포지션해서 적어
+    // DB에 접근할 수 있는 매니저 객체
+    // 스프링이 만들어서 IoC에 넣어둔다.
+    // DI에서 꺼내 쓰기만 하면된다.
+    private EntityManager em;
 
-    //  얘를 생성해야함. Default 생서자가 없잖아. 생성할 때마다 파라메터 넣어야 함.
-    //  Dependency Injection(의존성 주입)
-    public UserRepository(EntityManager em){
+    // 생성자 주입 (DI 코드)
+    public UserRepository(EntityManager em) {
         this.em = em;
     }
 
-    @Transactional  // 트랜잭션 설정.
-    public void save (UserRequest.JoinDTO requestDTO){
-        Query query = em.createNativeQuery("INSERT INTO user_tb(username, password, email) VALUES (?, ?, ?)");
+    @Transactional // db에 write 할때는 필수
+    public void save(UserRequest.JoinDTO requestDTO){
+        Query query = em.createNativeQuery("insert into user_tb(username, password, email, created_at) values(?,?,?, now())");
         query.setParameter(1, requestDTO.getUsername());
         query.setParameter(2, requestDTO.getPassword());
         query.setParameter(3, requestDTO.getEmail());
-
         query.executeUpdate();
     }
 
-    @Transactional  //  model
-    public void saveV2 (UserRequest.JoinDTO requestDTO){
-        User user = new User();
-        user.setUsername(requestDTO.getUsername());
-        user.setPassword(requestDTO.getPassword());
-        user.setEmail(requestDTO.getEmail());
-
-        em.persist(user);
-    }
-
     public User findByUsernameAndPassword(UserRequest.LoginDTO requestDTO) {
-        Query query = em.createNativeQuery("SELECT * FROM user_tb  WHERE username=? AND password=?", User.class);
+        Query query = em.createNativeQuery("select * from user_tb where username=? and password=?", User.class);
         query.setParameter(1, requestDTO.getUsername());
         query.setParameter(2, requestDTO.getPassword());
 
-        try{
-            User user = (User) query.getSingleResult();
-            return user;
-        }catch (Exception e){
-            return null;
-        }
-
-    }
-
-    public User findByUsername(String username) {
-        Query query = em.createNativeQuery("SELECT * FROM user_tb  WHERE username=?", User.class);
-        query.setParameter(1, username);
-
-        try{
-            User user = (User) query.getSingleResult();
-            return user;
-        }catch (Exception e){
-            return null;
-        }
+        User user = (User) query.getSingleResult();
+        return user;
     }
 }

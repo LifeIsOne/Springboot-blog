@@ -19,6 +19,15 @@ public class UserRepository {
         this.em = em;
     }
 
+    @Transactional
+    public void update(UserRequest.UpdateDTO requestDTO, int id) {
+        Query query = em.createNativeQuery("UPDATE user_tb SET password WHERE username = ?");
+        query.setParameter(1, requestDTO.getPassword());
+        query.setParameter(2, id);
+
+        User user = (User) query.getSingleResult();
+    }
+
     @Transactional // db에 write 할때는 필수
     public void save(UserRequest.JoinDTO requestDTO){
         Query query = em.createNativeQuery("insert into user_tb(username, password, email, created_at) values(?,?,?, now())");

@@ -15,6 +15,14 @@ public class UserController {
     private final UserRepository userRepository;
     private final HttpSession session;
 
+    @PostMapping("/board/update")
+    public String update(){
+
+        return
+    }
+
+
+
     // 왜 조회인데 post임? 민간함 정보는 body로 보낸다.
     // 로그인만 예외로 select인데 post 사용
     // select * from user_tb where username=? and password=?
@@ -59,6 +67,15 @@ public class UserController {
 
     @GetMapping("/user/updateForm")
     public String updateForm() {
+        //  인증 확인
+
+        //  권한 확인
+
+
+        //  Model위임 id로 user를 조회
+
+        //  가방에 담기
+
         return "user/updateForm";
     }
 

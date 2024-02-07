@@ -70,4 +70,14 @@ public class BoardRepository {
         query.setParameter(1,id);
         query.executeUpdate();
     }
+
+    @Transactional
+    public void update(BoardRequest.UpdateDTO requestDTO, int id) {
+        Query query = em.createNativeQuery("UPDATE board_tb SET title = ?, content = ? WHERE id = ?");
+        query.setParameter(1, requestDTO.getTitle());
+        query.setParameter(2, requestDTO.getContent());
+        query.setParameter(3, id);
+
+        query.executeUpdate();
+    }
 }

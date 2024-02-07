@@ -18,6 +18,30 @@ public class BoardController {
     private final HttpSession session;
     private final BoardRepository boardRepository;
 
+    @GetMapping("/board/{id}/updateForm")
+    public String updateForm(@PathVariable int id, HttpServletRequest request){
+
+        //  인증 확인
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        if (sessionUser == null) {   //  error : 401
+            return "redirect:/loginForm";
+        }
+        //  권한 확인
+
+        //  Model위임 id로 board를 조회
+        Board board = boardRepository.findById(id);
+        if(board.getUserId() != sessionUser.getId()){
+            return "error/403";
+        }
+
+        //  가방에 담기
+        request.setAttribute("board",board);
+
+        return "board/updateForm";
+    }
+
+
+
     @GetMapping({ "/", "/board" })
     public String index(HttpServletRequest request) {
 

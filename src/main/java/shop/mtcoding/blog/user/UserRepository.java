@@ -21,11 +21,11 @@ public class UserRepository {
 
     @Transactional
     public void update(UserRequest.UpdateDTO requestDTO, int id) {
-        Query query = em.createNativeQuery("UPDATE user_tb SET password WHERE username = ?");
+        Query query = em.createNativeQuery("UPDATE user_tb SET password = ? WHERE id = ?");
         query.setParameter(1, requestDTO.getPassword());
         query.setParameter(2, id);
 
-        User user = (User) query.getSingleResult();
+        query.executeUpdate();
     }
 
     @Transactional // db에 write 할때는 필수

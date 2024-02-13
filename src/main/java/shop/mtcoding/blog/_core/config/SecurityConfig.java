@@ -26,7 +26,7 @@ public class SecurityConfig {
         http.csrf(c -> c.disable());
 
         http.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers("/user/updateForm","/board/**").authenticated().anyRequest().permitAll();
+            authorize.requestMatchers("/user/**","/board/**").authenticated().anyRequest().permitAll();
 
         });
 

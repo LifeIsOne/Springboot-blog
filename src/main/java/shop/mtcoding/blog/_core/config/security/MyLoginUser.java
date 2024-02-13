@@ -1,5 +1,6 @@
 package shop.mtcoding.blog._core.config.security;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import java.util.Collection;
 
 //  Session에 저장되는 Object
 @RequiredArgsConstructor
+@Getter
 public class MyLoginUser implements UserDetails {
 
     private final User user;

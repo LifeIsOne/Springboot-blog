@@ -68,10 +68,10 @@ public class UserController {
 //
 //        return "redirect:/"; // 컨트롤러가 존재하면 무조건 redirect 외우기
 //    }
-//    @GetMapping("/loginForm")
-//    public String loginForm() {
-//    return "user/loginForm";
-//}
+    @GetMapping("/loginForm")
+    public String loginForm() {
+    return "user/loginForm";
+}
 
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO requestDTO){
@@ -85,10 +85,6 @@ public class UserController {
     public String joinForm() {
         return "user/joinForm";
     }
-
-
-
-
 
     @GetMapping("/logout")
     public String logout() {

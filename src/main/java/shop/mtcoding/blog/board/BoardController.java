@@ -22,9 +22,7 @@ public class BoardController {
     public String update(@PathVariable int id, BoardRequest.UpdateDTO requestDTO){
         //  1. 인증 확인
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if(sessionUser == null){
-            return "redirect:/loginForm";
-        }
+
         //  2. 권환 확인
         Board board = boardRepository.findById(id);
         if (board.getUserId() != sessionUser.getId()){
@@ -41,9 +39,7 @@ public class BoardController {
     public String updateForm(@PathVariable int id, HttpServletRequest request){
         //  인증 확인
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) {   //  error : 401
-            return "redirect:/loginForm";
-        }
+
         //  권한 확인
 
 
@@ -73,9 +69,7 @@ public class BoardController {
 
         //  1. 인증 X
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) {   //  error : 401
-            return "redirect:/loginForm";
-        }
+
         //  2. 권한 X
         Board board = boardRepository.findById(id);
         if (board.getUserId() != sessionUser.getId()){

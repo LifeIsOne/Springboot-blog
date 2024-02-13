@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import shop.mtcoding.blog._core.config.security.MyLoginUser;
-import shop.mtcoding.blog.user.User;
 
 import java.util.List;
 
@@ -105,19 +104,17 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable int id, HttpServletRequest request) {
+    public String detail(@PathVariable int id, HttpServletRequest request, @AuthenticationPrincipal MyLoginUser myLoginUser) {
         //  1. Model 진입 - 상세보기 데이터 가져오기
         BoardResponse.DetailDTO responseDTO = boardRepository.findByIdWithUser(id);
 
-        //  2. 페이지 주인 여부 확인(board의 userId와 sessionUser 비교)
-        User sessionUser = (User) session.getAttribute("sessionUser");
 
         boolean pageOwner;
-        if(sessionUser == null){
+        if(myLoginUser == null){
             pageOwner = false;
         }else{
             int boardUserId = responseDTO.getUserId();
-            int sessionUserId = sessionUser.getId();
+            int sessionUserId = myLoginUser.getUser().getId();
             pageOwner = boardUserId == sessionUserId;
         }
 

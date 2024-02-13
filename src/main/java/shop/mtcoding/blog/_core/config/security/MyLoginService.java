@@ -1,5 +1,6 @@
 package shop.mtcoding.blog._core.config.security;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,6 +15,7 @@ import shop.mtcoding.blog.user.UserRepository;
 public class MyLoginService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final HttpSession session;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException{
@@ -26,6 +28,7 @@ public class MyLoginService implements UserDetailsService {
             return null;
         }else{
             System.out.println("user를 찾았습니다.");
+            session.setAttribute("sessionUser",user);   //  ※ mustache 용도로만
             return new MyLoginUser(user);   //  SercurityContexHolder 여기 저장
         }
     }

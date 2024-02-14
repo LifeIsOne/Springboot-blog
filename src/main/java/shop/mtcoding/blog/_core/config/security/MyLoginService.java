@@ -28,7 +28,7 @@ public class MyLoginService implements UserDetailsService {
             return null;
         }else{
             System.out.println("user를 찾았습니다.");
-            session.setAttribute("sessionUser",user);   //  ※ mustache 용도로만
+            session.setAttribute("sessionUser",user);   //  ※ mustache 용도로만+-
             return new MyLoginUser(user);   //  SercurityContexHolder 여기 저장
         }
     }

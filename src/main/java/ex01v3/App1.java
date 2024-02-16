@@ -1,6 +1,4 @@
-package ex01;
-
-import ex01.model.User;
+package ex01v3;
 
 public class App1 {
     public static void main(String[] args) {
@@ -8,9 +6,7 @@ public class App1 {
         DBData1 dbData = new DBData1(1, "제목1", "내용1", 3, "love", "love@nate.com");
 
         // 2. dbData1를 ViewData1에 옮기시오 - ORM
-        User user = new User(dbData.getUserId(),dbData.getUsername(),dbData.getEmail());
-        ViewData1 viewData = new ViewData1(dbData.getBoardId(),dbData.getTitle(),dbData.getContent(),user);
-
-        System.out.println(viewData);
+        ViewData1 viewData1 = dbData.toViewData();
+        System.out.println(viewData1);
     }
 }
